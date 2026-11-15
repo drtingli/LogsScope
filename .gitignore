@@ -1,0 +1,13 @@
+__pycache__/
+*.egg-info/
+.venv/
+build/
+dist/
+*.log
+.vscode/
+.pytest_cache/
+**/__pycache__/
+/sync.ffs_db
+
+# ignore all dot-folders at root
+/.*/
