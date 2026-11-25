@@ -144,7 +144,8 @@ class MainWindow(QMainWindow):
         self.follow_act = self._act(v, "&Follow tail", self._follow_toggled, "Ctrl+T", True)
         self.follow_act.setChecked(bool(self.settings["follow_tail"]))
         self.panel_act = self._act(v, "Filter / results &panel",
-                                   lambda: self._cur(lambda t: t.toggle_bottom()), "Ctrl+Shift+F")
+                                   lambda: self._cur(lambda t: t.toggle_bottom()))
+        self.panel_act.setShortcuts([QKeySequence("F4"), QKeySequence("Ctrl+Shift+F")])
         v.addSeparator()
         self.autofit_act = self._act(v, "&Auto-fit column widths", self._autofit_toggled, checkable=True)
         self.autofit_act.setChecked(bool(self.settings["autofit_columns"]))

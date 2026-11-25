@@ -8,7 +8,7 @@ LogScope is a desktop log viewer and tail tool written in Python with PySide6.
 
 - Tail / follow tail, multi-tab, drag-and-drop open, recent files
 - Regex search (previous / next / all) and per-panel find (Ctrl+F, F3)
-- Filter view (regex, invert, spread context, tail filter, filter-to-new-tab)
+- Filter view (F4 or Ctrl+Shift+F; regex, invert, spread context, tail filter, filter-to-new-tab)
 - Line highlighting rules (whole line or matched words, custom colors)
 - Bookmarks with tags and emoji markers
 - Columnizers with auto-detection and user-defined regex rules

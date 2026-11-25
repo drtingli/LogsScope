@@ -161,6 +161,38 @@ class DetachedLayout(unittest.TestCase):
 
         cls.app = QApplication.instance() or QApplication(["logscope-test", "-platform", "offscreen"])
 
+    def test_filter_panel_shortcuts(self):
+        import tempfile
+        from unittest.mock import patch
+
+        from PySide6.QtCore import Qt
+        from PySide6.QtTest import QTest
+
+        from logscope.core.columnizers import ColumnizerRegistry
+        from logscope.core.settings import Settings
+        from logscope.ui.main_window import MainWindow
+
+        with tempfile.TemporaryDirectory() as folder:
+            path = Path(folder) / "sample.log"
+            path.write_text("one\n", encoding="utf-8")
+            window = MainWindow(Settings(Path(folder)), ColumnizerRegistry())
+            try:
+                shortcuts = {shortcut.toString() for shortcut in window.panel_act.shortcuts()}
+                self.assertEqual(shortcuts, {"F4", "Ctrl+Shift+F"})
+                with patch("logscope.ui.log_tab.ReaderWorker.start"):
+                    tab = window.open_file(str(path), remember=False)
+                window.show()
+                self.app.processEvents()
+                self.assertFalse(tab.bottom.isVisible())
+                QTest.keyClick(window, Qt.Key.Key_F4)
+                self.assertTrue(tab.bottom.isVisible())
+                QTest.keyClick(window, Qt.Key.Key_F4)
+                self.assertFalse(tab.bottom.isVisible())
+            finally:
+                window.close()
+                window.deleteLater()
+                self.app.processEvents()
+
     def test_detach_shows_log_and_reattach_preserves_it(self):
         import tempfile
         from unittest.mock import patch
